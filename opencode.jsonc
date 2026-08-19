@@ -1,0 +1,169 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "macaron/macaron-v1-coding-venti",
+  "small_model": "macaron/macaron-v1-coding-venti",
+  "provider": {
+    "macaron": {
+      "npm": "@ai-sdk/openai",
+      "name": "Macaron",
+      "options": {
+        "baseURL": "https://mint.macaron.im/v1",
+        "apiKey": "{env:MACARON_API_KEY}",
+        "timeout": 600000,
+        "headerTimeout": 120000,
+        "chunkTimeout": 120000,
+        "maxRetries": 6
+      },
+      "models": {
+        "macaron-v1-coding-venti": {
+          "name": "Macaron V1 Coding Venti",
+          "attachment": true,
+          "tool_call": true,
+          "temperature": true,
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
+          },
+          "limit": {
+            "context": 1000000,
+            "output": 64000
+          }
+        }
+      }
+    }
+  },
+  "snapshot": true,
+  "formatter": true,
+  "lsp": true,
+  "default_agent": "build",
+  "instructions": ["AGENTS.md"],
+  "agent": {
+    "build": {
+      "steps": 300,
+      "description": "Primary build agent. Works through multi-step tasks to completion."
+    },
+    "general": {
+      "steps": 300
+    }
+  },
+  "experimental": {
+    "continue_loop_on_deny": true
+  },
+  "permission": {
+    "read": "allow",
+    "glob": "allow",
+    "grep": "allow",
+    "list": "allow",
+    "todowrite": "allow",
+    "question": "allow",
+    "webfetch": "allow",
+    "websearch": "allow",
+    "edit": "allow",
+    "task": "allow",
+    "skill": "allow",
+    "lsp": "allow",
+    "doom_loop": "deny",
+    "bash": {
+      "rm -rf *": "deny",
+      "rm -rf /": "deny",
+      "rm -rf ~": "deny",
+      "rm -rf $HOME": "deny",
+      "rm -rf /*": "deny",
+      "rm -fr *": "deny",
+      "rm -fr /*": "deny",
+      "sudo *": "deny",
+      "su *": "deny",
+      "chmod -R *": "deny",
+      "chown -R *": "deny",
+      "chflags *": "deny",
+      "mkfs*": "deny",
+      "dd if=*": "deny",
+      "dd of=*": "deny",
+      "git push --force*": "deny",
+      "git push -f*": "deny",
+      "git reset --hard*": "deny",
+      "git clean -fd*": "deny",
+      "git clean -fx*": "deny",
+      "git clean -fdx*": "deny",
+      "git checkout -- *": "deny",
+      "git filter-branch*": "deny",
+      ":(){ :|:& };:*": "deny",
+      "curl * | sh": "deny",
+      "curl * | bash": "deny",
+      "wget * | sh": "deny",
+      "wget * | bash": "deny",
+      "curl * | zsh": "deny",
+      "wget * | zsh": "deny",
+      "mv /*": "deny",
+      "cp /*": "deny",
+      "mv ~/*": "deny",
+      "shutdown*": "deny",
+      "reboot*": "deny",
+      "halt*": "deny",
+      "kill -9 *": "deny",
+      "killall *": "deny",
+      "pkill *": "deny",
+      "defaults delete*": "deny",
+      "diskutil eraseDisk*": "deny",
+      "diskutil partitionDisk*": "deny",
+      ":(){ :|:& };:": "deny",
+      "git *": "allow",
+      "ls *": "allow",
+      "cat *": "allow",
+      "pwd": "allow",
+      "which *": "allow",
+      "node *": "allow",
+      "npm *": "allow",
+      "npx *": "allow",
+      "python*": "allow",
+      "pip *": "allow",
+      "rustup *": "allow",
+      "cargo *": "allow",
+      "go *": "allow",
+      "make *": "allow",
+      "cmake *": "allow",
+      "docker *": "allow",
+      "rustc *": "allow",
+      "*": "allow"
+    },
+    "external_directory": {
+      "~/Library/Keychains/**": "deny",
+      "~/.ssh/**": "deny",
+      "~/.aws/**": "deny",
+      "~/.gnupg/**": "deny",
+      "~/.config/opencode/opencode.json*": "deny",
+      "~/Library/Caches/**": "deny",
+      "/etc/**": "deny",
+      "/usr/**": "deny",
+      "/bin/**": "deny",
+      "/sbin/**": "deny",
+      "/System/**": "deny",
+      "/private/etc/**": "deny",
+      "/var/db/**": "deny",
+      "/var/root/**": "deny",
+      "~/.config/opencode/**": "allow",
+      "~/.agents/**": "allow",
+      "~/.claude/**": "allow",
+      "/var/folders/pp/yhx36v313g7cn4pkpkp4_kj40000gn/T/opencode/**": "allow",
+      "*": "allow"
+    }
+  },
+  "attachment": {
+    "image": {
+      "auto_resize": true,
+      "max_width": 2000,
+      "max_height": 2000,
+      "max_base64_bytes": 5242880
+    }
+  },
+  "tool_output": {
+    "max_lines": 2000,
+    "max_bytes": 51200
+  },
+  "compaction": {
+    "auto": true,
+    "tail_turns": 6,
+    "preserve_recent_tokens": 60000,
+    "reserved": 32000
+  }
+}

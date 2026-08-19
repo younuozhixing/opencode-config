@@ -1,0 +1,9 @@
+node_modules
+package.json
+package-lock.json
+bun.lock
+.gitignore
+opencode.json
+opencode.jsonc
+secrets.env
+certs/skills/.DS_Store
