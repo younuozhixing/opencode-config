@@ -9,16 +9,6 @@ Candidate rules unoai promoted from real sessions — reviewable; fold the durab
 ones into the curated rule files, then prune. This is a skill (on-demand), NOT
 the CLAUDE.md spine — keep it out of the always-loaded path.
 
-- (2026-08-10 07:38) - Eliminate layout orphans (widows) by adjusting section/spacing parameters so content stays on its intended page, rather than splitting a logical group across a page break.
-
-- For any PDF deliverable, verify end-to-end with multiple orthogonal checks: page count (pdfinfo), font embedding status (pdffonts), visual render (pdftoppm), and content fidelity against source.
-
-- Never invent or fabricate content beyond the provided source; deliverables must map strictly to source data.
-
-- Only emit a completion/done marker after re-verifying all deliverables intact on the current pass — prior checks do not carry over across environment restarts.
-
-- When a specific font is required for character rendering (e.g. CJK glyphs), confirm it is fully embedded in the output PDF, not merely referenced.
-
 - (2026-08-10 07:38) - Verify PDF font embedding flags (emb=yes AND uni=yes) for any PDF with non-Latin glyphs, so characters render instead of showing tofu boxes.
 - Run a final page-by-page visual render (e.g., rasterize every page) before marking layout deliverables complete; a content cross-check alone won't catch orphans or page-overflow.
 - After any server/process restart mid-handoff, re-verify all deliverable files rather than assuming no data loss occurred.
@@ -122,3 +112,10 @@ NONE of the other session-specific items (company name, color accent, page split
 - When a layout fix is made, re-verify the full layout integrity (page count, dimensions, embedded assets, no orphans) — not just the spot you changed.
 - Treat single orphaned lines/items spilling onto a new page as a real bug; pack or rebalance sections to eliminate them.
 - Gate the "done" marker on whole-task completion including verification, never on a single completed substep.
+
+- (2026-08-24 18:43) - A green test that cannot be made RED proves nothing — inject the real fault before trusting a test.
+- No motion — even airborne or zero-distance — while any safety-critical sensor is stale; treat freshness as a hard gate.
+- Isolate deploy from dirty trees; never deploy a checkout with uncommitted WIP from another session. Re-derive state from disk on restart instead of trusting in-memory.
+- Ordered validation gates beat ad-hoc checks: progress identity → fresh inputs → e-stop → bounded deadman motion → stale-stop → higher autonomy, in that sequence.
+- Prefer the compiled/native bridge over the interpreted one in the motion command path to reduce CPU bottleneck on production hardware.
+- Production branch stays on the last known-safe behavior; exclude known-unsafe regression commits regardless of how recent they are.
