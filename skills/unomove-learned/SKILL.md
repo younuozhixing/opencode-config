@@ -9,15 +9,6 @@ Candidate rules unoai promoted from real sessions — reviewable; fold the durab
 ones into the curated rule files, then prune. This is a skill (on-demand), NOT
 the CLAUDE.md spine — keep it out of the always-loaded path.
 
-- (2026-08-10 07:38) - Verify PDF font embedding flags (emb=yes AND uni=yes) for any PDF with non-Latin glyphs, so characters render instead of showing tofu boxes.
-- Run a final page-by-page visual render (e.g., rasterize every page) before marking layout deliverables complete; a content cross-check alone won't catch orphans or page-overflow.
-- After any server/process restart mid-handoff, re-verify all deliverable files rather than assuming no data loss occurred.
-- When reproducing source material, constrain output strictly to source content to avoid accidental fabrication.
-
-- (2026-08-10 07:38) - When generating PDFs from CJK text, verify font subsetting/embedding flags and glyph coverage explicitly — silent missing glyphs render as blank boxes.
-- Eliminate layout orphans (single lines stranded on the next page) by tightening section spacing to pull the whole block forward, rather than accepting the break.
-- After any server/worker restart, re-verify deliverables end-to-end (file integrity, page count, embedded fonts, visual check) — don't assume prior-validated artifacts are still intact.
-
 - (2026-08-10 07:40) - When rendering CJK or non-Latin text to PDF, always embed the required font fully and verify with a font-inspection tool (emb=yes, uni=yes) — otherwise characters silently render as missing glyphs.
 - When paginating fixed-layout documents, proactively force related content blocks onto the same page (via spacing adjustments) to eliminate orphan/widow lines rather than accepting them.
 - After any infrastructure event (e.g. server restart) that occurs mid-task, re-verify all deliverables against their acceptance criteria — don't assume prior success persists.
@@ -119,3 +110,12 @@ NONE of the other session-specific items (company name, color accent, page split
 - Ordered validation gates beat ad-hoc checks: progress identity → fresh inputs → e-stop → bounded deadman motion → stale-stop → higher autonomy, in that sequence.
 - Prefer the compiled/native bridge over the interpreted one in the motion command path to reduce CPU bottleneck on production hardware.
 - Production branch stays on the last known-safe behavior; exclude known-unsafe regression commits regardless of how recent they are.
+
+- (2026-08-24 22:37) - A test that never fails proves nothing — verify each test by injecting the real fault and watching it go RED before trusting green.
+- Don't deploy from a dirty or mixed worktree; build from a clean tree at the exact intended commit, and never discard work you didn't write.
+- After any restart, re-derive state from disk rather than trusting in-memory state before authorizing further actions.
+- Treat sensor/odometry staleness as a hard gate: never authorize motion while inputs are stale; make fail-closed explicit per sensor with documented freshness budgets.
+- Separate authority cleanly — one component should be the sole command authority for an actuator, with telemetry read back to verify it took effect.
+- Ordered safety gates beat ad-hoc checks: sequence them identity → fresh inputs → backend/e-stop → deadman → stale-stop → higher modes, and block progression at the first failure.
+- Never manufacture or substitute odometry/sensor data to satisfy a gate; surface the missing real signal as a blocker instead.
+- Preserve another session's uncommitted WIP rather than overwriting it; commit only the paths you changed.
