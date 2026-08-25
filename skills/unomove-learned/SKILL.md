@@ -9,10 +9,6 @@ Candidate rules unoai promoted from real sessions — reviewable; fold the durab
 ones into the curated rule files, then prune. This is a skill (on-demand), NOT
 the CLAUDE.md spine — keep it out of the always-loaded path.
 
-- (2026-08-10 07:40) - For PDFs with non-ASCII (e.g., CJK) text, verify with `pdffonts` that fonts are fully embedded (emb=yes, uni=yes) to guarantee no missing glyphs.
-- After any infrastructure/server restart, re-verify deliverables intact rather than assuming no data loss.
-- For paginated output, verify page-by-page layout integrity (e.g., no orphan lines) rather than relying on total page count alone.
-
 - (2026-08-10 07:40) • When embedding custom fonts (especially CJK) in a PDF, always verify with `pdffonts` that embedding (`emb=yes`) and Unicode mapping (`uni=yes`) succeeded — silent missing glyphs will render as blanks or boxes.
 
 • After any interruption (server restart, crash), re-verify every deliverable's integrity (page count, font embedding, visual layout) before declaring done — don't trust pre-interruption state.
@@ -120,3 +116,8 @@ NONE of the other session-specific items (company name, color accent, page split
 
 - (2026-08-25 10:02) - After a session interruption or restart, re-read the actual workspace state before continuing; never resume from assumed prior progress.
 - Only emit a done/complete marker after end-to-end verification of the whole task, not when the last sub-step finishes.
+
+- (2026-08-25 13:59) - Don't assume prior state persists between sessions; re-read the workspace before continuing work so you act on reality, not memory.
+- Emit a "done" marker only when the whole task is verified complete end-to-end, not when a sub-step finishes.
+- Confirm deliverables and documentation match their governing source document before claiming alignment, since the source — not your recollection — defines correctness.
+- Treat "unknown requirements until source inspected" as a blocker to resolve first, rather than guessing scope from the goal statement alone.
