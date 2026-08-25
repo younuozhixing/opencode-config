@@ -9,11 +9,6 @@ Candidate rules unoai promoted from real sessions — reviewable; fold the durab
 ones into the curated rule files, then prune. This is a skill (on-demand), NOT
 the CLAUDE.md spine — keep it out of the always-loaded path.
 
-- (2026-08-10 07:40) - When rendering CJK or non-Latin text to PDF, always embed the required font fully and verify with a font-inspection tool (emb=yes, uni=yes) — otherwise characters silently render as missing glyphs.
-- When paginating fixed-layout documents, proactively force related content blocks onto the same page (via spacing adjustments) to eliminate orphan/widow lines rather than accepting them.
-- After any infrastructure event (e.g. server restart) that occurs mid-task, re-verify all deliverables against their acceptance criteria — don't assume prior success persists.
-- Verify layout integrity page-by-page (page count, dimensions, visual render, content cross-check against source) rather than trusting the generation step alone.
-
 - (2026-08-10 07:40) - For PDFs with non-ASCII (e.g., CJK) text, verify with `pdffonts` that fonts are fully embedded (emb=yes, uni=yes) to guarantee no missing glyphs.
 - After any infrastructure/server restart, re-verify deliverables intact rather than assuming no data loss.
 - For paginated output, verify page-by-page layout integrity (e.g., no orphan lines) rather than relying on total page count alone.
@@ -119,3 +114,9 @@ NONE of the other session-specific items (company name, color accent, page split
 - Ordered safety gates beat ad-hoc checks: sequence them identity → fresh inputs → backend/e-stop → deadman → stale-stop → higher modes, and block progression at the first failure.
 - Never manufacture or substitute odometry/sensor data to satisfy a gate; surface the missing real signal as a blocker instead.
 - Preserve another session's uncommitted WIP rather than overwriting it; commit only the paths you changed.
+
+- (2026-08-25 09:17) - Do not assume prior state after an interruption; re-read the actual workspace/files before continuing work.
+- Verify the result works end-to-end before marking done; emit a "done" marker only when the whole task is truly complete.
+
+- (2026-08-25 10:02) - After a session interruption or restart, re-read the actual workspace state before continuing; never resume from assumed prior progress.
+- Only emit a done/complete marker after end-to-end verification of the whole task, not when the last sub-step finishes.
