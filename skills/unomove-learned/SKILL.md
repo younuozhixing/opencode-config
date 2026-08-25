@@ -9,10 +9,6 @@ Candidate rules unoai promoted from real sessions — reviewable; fold the durab
 ones into the curated rule files, then prune. This is a skill (on-demand), NOT
 the CLAUDE.md spine — keep it out of the always-loaded path.
 
-- (2026-08-10 07:40) • When embedding custom fonts (especially CJK) in a PDF, always verify with `pdffonts` that embedding (`emb=yes`) and Unicode mapping (`uni=yes`) succeeded — silent missing glyphs will render as blanks or boxes.
-
-• After any interruption (server restart, crash), re-verify every deliverable's integrity (page count, font embedding, visual layout) before declaring done — don't trust pre-interruption state.
-
 - (2026-08-10 07:40) - When embedding fonts for CJK text, always verify with a font inspection tool (e.g., pdffonts) that fonts are fully embedded with unicode mappings — un-embedded CJK fonts silently drop or substitute characters.
 
 - Layout verification is never "done" by one method: combine page-count (pdfinfo), font-embedding (pdffonts), and rasterized visual (pdftoppm) checks to catch different failure modes.
@@ -121,3 +117,8 @@ NONE of the other session-specific items (company name, color accent, page split
 - Emit a "done" marker only when the whole task is verified complete end-to-end, not when a sub-step finishes.
 - Confirm deliverables and documentation match their governing source document before claiming alignment, since the source — not your recollection — defines correctness.
 - Treat "unknown requirements until source inspected" as a blocker to resolve first, rather than guessing scope from the goal statement alone.
+
+- (2026-08-25 14:38) - Ground all deliverables and documentation in the actual codebase/source of truth, not just spec or proposal prose — drift between docs and code invalidates both.
+- Re-read the workspace/repo state before resuming; never assume prior session state still holds.
+- Before planning deliverables, first inspect what already exists in the target repo — unknown existing artifacts can block or duplicate work.
+- Verify outputs actually work end-to-end against the real implementation before claiming a deliverable is done.
