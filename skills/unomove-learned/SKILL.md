@@ -9,10 +9,6 @@ Candidate rules unoai promoted from real sessions — reviewable; fold the durab
 ones into the curated rule files, then prune. This is a skill (on-demand), NOT
 the CLAUDE.md spine — keep it out of the always-loaded path.
 
-- (2026-08-10 07:40) - When embedding CJK fonts in a PDF, verify with `pdffonts` that every font reports `emb=yes,uni=yes` — non-embedded subset fonts cause silent missing-character (tofu) rendering.
-
-- Lock exact deliverable dimensions (e.g., page count, page size) and verify with tooling (`pdfinfo`, `pdftoppm`) after each regeneration; "looks right" is not a substitute for measured page-by-page layout integrity.
-
 - (2026-08-10 07:40) - Prevent layout orphans by forcing related content blocks onto the same page, adjusting spacing rather than splitting them.
 - For PDFs with non-Latin text, require full font embedding and verify with `pdffonts` (emb=yes, uni=yes) to avoid missing-glyph rendering.
 - After any server/process restart, re-verify deliverables end-to-end before claiming completion—prior "verified" state does not survive restart.
@@ -122,3 +118,7 @@ the CLAUDE.md spine — keep it out of the always-loaded path.
 
 - (2026-08-26 13:04) - After an interruption (server restart, dropped session), re-scan the workspace and verify what actually exists before resuming — never assume prior progress is intact or correct.
 - Do not claim done on output you have not freshly verified; unverified artifacts are not completion.
+
+- (2026-08-26 13:47) - Do not claim a task is complete on the basis of prior/partial work; re-verify the output actually works before resuming or closing.
+- When resuming an interrupted hand-off, first re-scan for existing artifacts and verify each one rather than assuming prior state.
+- End with a "done" signal only when the entire deliverable is verified working — never as a courtesy or placeholder.
