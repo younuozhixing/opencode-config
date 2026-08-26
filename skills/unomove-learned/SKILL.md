@@ -122,3 +122,7 @@ the CLAUDE.md spine — keep it out of the always-loaded path.
 - (2026-08-26 13:47) - Do not claim a task is complete on the basis of prior/partial work; re-verify the output actually works before resuming or closing.
 - When resuming an interrupted hand-off, first re-scan for existing artifacts and verify each one rather than assuming prior state.
 - End with a "done" signal only when the entire deliverable is verified working — never as a courtesy or placeholder.
+
+- (2026-08-26 16:41) - Before resuming "partial" prior work, first verify the artifact actually opens/is readable before deciding to recover vs. redo.
+- Scan the workspace for existing artifacts before asking for inputs or starting from scratch.
+- Give a completion mark only after the whole task is verified, not on restated intent or status claims.
