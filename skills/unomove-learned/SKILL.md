@@ -9,34 +9,6 @@ Candidate rules unoai promoted from real sessions — reviewable; fold the durab
 ones into the curated rule files, then prune. This is a skill (on-demand), NOT
 the CLAUDE.md spine — keep it out of the always-loaded path.
 
-- (2026-08-10 07:40) - When embedding fonts for CJK text, always verify with a font inspection tool (e.g., pdffonts) that fonts are fully embedded with unicode mappings — un-embedded CJK fonts silently drop or substitute characters.
-
-- Layout verification is never "done" by one method: combine page-count (pdfinfo), font-embedding (pdffonts), and rasterized visual (pdftoppm) checks to catch different failure modes.
-
-- A server restart or environment reload invalidates prior verification — never trust earlier "verified" state; re-run end-to-end checks after any restart before declaring completion.
-
-- To eliminate orphans (a trailing item pushed to the next page), compress section spacing on the current page rather than padding the next page — packing earlier prevents the break.
-
-- Treat deliverables as a unit of source + rendered artifact (e.g., HTML + PDF): keep the editable source alongside the final rendered output so future edits don't require reverse-engineering.
-
-NONE
-
-- (2026-08-10 07:40) - When eliminating layout orphans (e.g., a single line/section pushed to the next page), adjust section/timeline spacing to pull content together rather than accepting the orphan, and verify page-by-page integrity afterward.
-- For PDF deliverables in non-Latin scripts, verify font embedding (emb=yes, uni=yes) AND render visually (e.g., pdftoppm) to catch missing-glyph boxes that metadata alone won't reveal.
-- When a server restart or environment disruption interrupts a task, re-read all workspace artifacts and re-verify end-to-end before declaring completion—never emit a done marker on stale prior validation.
-
-- (2026-08-10 07:40) • When embedding CJK fonts in a generated PDF, always verify with `pdffonts` that embedding (emb) and unicode (uni) flags are both "yes" — missing glyphs often render as blank boxes and only a font-embedding check catches it.
-
-• To eliminate layout orphans (e.g., a section's last lines spilling to the next page), proactively adjust section/line spacing to force-fit the content block on the target page rather than accepting the break.
-
-• After any environment restart or interruption, re-read the workspace and re-verify deliverables end-to-end before emitting a "done" marker — never assume prior-verified outputs are still intact.
-
-NONE of the other session-specific items (company name, color accent, page split) rise to a generalizable rule.
-
-- (2026-08-10 07:40) - When embedding fonts in a PDF, verify with `pdffonts` that all fonts are fully embedded (emb=yes, uni=yes) to avoid rendering issues across systems.
-- For paginated documents, eliminate orphans by constraining content blocks (e.g., spacing, section grouping) rather than letting them flow naturally.
-- Verify page-by-page layout integrity after any environment change (e.g., server restart), since artifacts can silently regress.
-
 - (2026-08-10 07:40) - When embedding CJK fonts in a PDF, verify with `pdffonts` that every font reports `emb=yes,uni=yes` — non-embedded subset fonts cause silent missing-character (tofu) rendering.
 
 - Lock exact deliverable dimensions (e.g., page count, page size) and verify with tooling (`pdfinfo`, `pdftoppm`) after each regeneration; "looks right" is not a substitute for measured page-by-page layout integrity.
@@ -122,3 +94,31 @@ NONE of the other session-specific items (company name, color accent, page split
 - Re-read the workspace/repo state before resuming; never assume prior session state still holds.
 - Before planning deliverables, first inspect what already exists in the target repo — unknown existing artifacts can block or duplicate work.
 - Verify outputs actually work end-to-end against the real implementation before claiming a deliverable is done.
+
+- (2026-08-26 12:44) - Before resuming interrupted work, re-inspect the actual workspace state; never assume prior progress from memory or claims alone.
+- Verify the end result actually works with a real check before declaring a task done; never emit a done marker prematurely.
+- A "done" signal is a claim of completion — gate it on fresh evidence, not on intent or partial completion.
+
+- (2026-08-26 12:44) - After an interruption or hand-off, re-inspect the actual workspace state before continuing; never assume what was already done.
+- Verify the end result actually works with fresh evidence before declaring a task complete.
+- Emit a completion/done signal only when the entire task is truly complete — not on partial progress.
+
+- (2026-08-26 12:44) - Don't assume prior state on resume; re-inspect the workspace before continuing.
+- Verify the result actually works before declaring done; never signal completion prematurely.
+
+- (2026-08-26 12:45) - After an interruption or hand-off, re-read the actual workspace state before continuing — never resume from assumptions about prior progress.
+- Never declare a task done without fresh verification that the result actually works; an unverified all-clear is not acceptable.
+- Gate the "done" marker behind full task completion, not partial progress or intention.
+
+- (2026-08-26 12:45) - Don't assume prior state after an interruption; re-read the workspace to confirm what's actually done before continuing.
+- Verify the result works with fresh evidence; never declare done prematurely or emit a done marker until the whole task is truly complete.
+
+- (2026-08-26 12:45) - Before resuming interrupted/handed-off work, re-read the actual current state; never assume prior progress carried over.
+- Verify the result actually works with fresh evidence before claiming done; premature "done" claims are not acceptable.
+- Emit a completion/done signal only when the entire task is truly complete, not when an individual step finishes.
+
+- (2026-08-26 12:45) - Before producing any external-facing deliverable, load the governing skill first and gather missing scope/audience/asset inputs before drafting — don't start content creation blind.
+- For deliverables with undefined scope, ask for target audience, sections, length target, and brand assets up front rather than assuming defaults.
+
+- (2026-08-26 13:04) - After an interruption (server restart, dropped session), re-scan the workspace and verify what actually exists before resuming — never assume prior progress is intact or correct.
+- Do not claim done on output you have not freshly verified; unverified artifacts are not completion.
