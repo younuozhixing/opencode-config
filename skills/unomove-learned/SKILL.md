@@ -9,12 +9,6 @@ Candidate rules unoai promoted from real sessions — reviewable; fold the durab
 ones into the curated rule files, then prune. This is a skill (on-demand), NOT
 the CLAUDE.md spine — keep it out of the always-loaded path.
 
-- (2026-08-10 07:40) - Prevent layout orphans by forcing related content blocks onto the same page, adjusting spacing rather than splitting them.
-- For PDFs with non-Latin text, require full font embedding and verify with `pdffonts` (emb=yes, uni=yes) to avoid missing-glyph rendering.
-- After any server/process restart, re-verify deliverables end-to-end before claiming completion—prior "verified" state does not survive restart.
-- Verify page-by-page layout integrity, not just overall page count, since orphan/widow and overflow issues hide at the page boundary.
-- Never invent content beyond the source; formatting work is transformation, not generation.
-
 - (2026-08-10 07:46) • After an interruption, re-read the actual workspace state before acting — never assume prior state from memory, because memory may be empty or stale.
 
 • Verify the result actually works (end-to-end) before declaring done; "done" must mean truly complete, not merely "no more obvious steps."
@@ -126,3 +120,5 @@ the CLAUDE.md spine — keep it out of the always-loaded path.
 - (2026-08-26 16:41) - Before resuming "partial" prior work, first verify the artifact actually opens/is readable before deciding to recover vs. redo.
 - Scan the workspace for existing artifacts before asking for inputs or starting from scratch.
 - Give a completion mark only after the whole task is verified, not on restated intent or status claims.
+
+- (2026-08-27 08:56) - 中断恢复后，先重新扫描工作区并验证任何部分产物的完整性，再决定恢复或重做——绝不假设中断前的状态仍然有效。
