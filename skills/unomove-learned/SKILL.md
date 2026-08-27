@@ -9,20 +9,6 @@ Candidate rules unoai promoted from real sessions — reviewable; fold the durab
 ones into the curated rule files, then prune. This is a skill (on-demand), NOT
 the CLAUDE.md spine — keep it out of the always-loaded path.
 
-- (2026-08-10 07:46) • After an interruption, re-read the actual workspace state before acting — never assume prior state from memory, because memory may be empty or stale.
-
-• Verify the result actually works (end-to-end) before declaring done; "done" must mean truly complete, not merely "no more obvious steps."
-
-• Emit a completion marker only when the entire task is verified complete, never as a courtesy or based on partial work.
-
-- (2026-08-10 07:46) - Don't assume prior state after an interruption; re-read the workspace to reconstruct what's done before acting.
-- Verify the result actually works end-to-end before declaring a task complete; never signal "done" prematurely.
-- Emit a completion marker only when the entire scope is truly finished, not per-component.
-
-- (2026-08-10 07:46) - After any interruption (restart, hand-off, context loss), re-read the actual workspace/state before continuing — never assume prior progress.
-- Verify the result actually works end-to-end before declaring success; "looks done" ≠ done.
-- Emit completion/done markers only when the entire task is truly complete and verified, not incrementally or optimistically.
-
 - (2026-08-10 07:46) - Don't assume prior state after an interruption — re-read the workspace to confirm what's actually done before continuing.
 - Verify the result actually works end-to-end; don't declare done prematurely.
 - Emit a completion marker only when the entire task is truly complete, not at intermediate milestones.
@@ -126,3 +112,15 @@ the CLAUDE.md spine — keep it out of the always-loaded path.
 - (2026-08-27 10:16) - Before producing any deliverable, confirm the concrete meaning of vague quality/safety requirements ("safe enough," "professional look") with the requester — never interpret and finalize alone.
 - Match the task to the on-demand skill early (e.g., PDF/brand work → deck-doc); loading it before drafting avoids rework.
 - Gather and confirm source material and scope before choosing a toolchain or drafting.
+
+- (2026-08-27 10:30) - When a requirement uses a vague qualitative bar (e.g. "safe enough", "fast enough", "good enough"), pin down its concrete, testable meaning before starting work — otherwise you cannot verify you met it.
+
+- (2026-08-27 10:30) - Re-read the workspace state to confirm what's already done before continuing an interrupted task — never assume prior state.
+- Verify the result actually works with fresh evidence; declaring done prematurely is a failure.
+- Emit any "done" signal only when the entire task is truly complete, not when individual steps finish.
+
+- (2026-08-27 10:36) - After an interruption/restart, re-read the actual workspace state before resuming — never trust memory or assume prior progress.
+- Emit a "done" signal only when the full task is verified working, not when individual steps finish.
+
+- (2026-08-27 10:56) - When choosing a build path, respect a tool's explicit scope notes — if a skill declares it does *not* cover a format (e.g. PDF), pick a different path rather than forcing it.
+- For any external-facing deliverable, flatten to final form and strip metadata/author/tooling paths so no internal source or tooling leaks.
