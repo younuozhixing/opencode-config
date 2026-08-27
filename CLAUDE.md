@@ -45,7 +45,7 @@ Use the smallest relevant skill instead of reading the whole rule book:
 | Anything bigger than one edit, or an ambiguous request | `skills/unomove-planning/SKILL.md` |
 | Splitting work across agents, or several unrelated failures | `skills/unomove-subagents/SKILL.md` |
 | Shared checkout, long task, or a broad git/file sweep | `skills/unomove-isolation/SKILL.md` |
-| Producing a FILE deliverable (.pptx/.docx/.xlsx/.pdf) or the 优诺智行 brand | `skills/deck-doc/SKILL.md` |
+| Building a BINARY Office file (PowerPoint .pptx / Word .docx / Excel .xlsx) — NOT HTML, not PDF via soffice | `skills/deck-doc/SKILL.md` |
 | A tracker/checklist/dashboard the user will USE (one interactive .html + unoStore persist) | `skills/deliverable-html/SKILL.md` |
 | Cloning/pushing/creating a repo (SSH-key origin + `~/unocoding/setup.sh`, never `gh`) | `skills/git/SKILL.md` |
 | Reaching a company machine (rig/server, e.g. ECAR70) via `unoai-jump` (read-only) | `skills/machine-access/SKILL.md` |

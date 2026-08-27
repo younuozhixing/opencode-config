@@ -1,6 +1,6 @@
 ---
 name: deck-doc
-description: Use when producing a FILE deliverable (.pptx/.docx/.xlsx/.pdf) or the 优诺智行 brand — the installed skill + CJK rules + branding.
+description: Use when building a BINARY Office file — a PowerPoint (.pptx), Word (.docx), or Excel (.xlsx) slide deck / document / spreadsheet. Not for HTML, not for PDF via soffice, not for plain-text manuals.
 ---
 
 ## Producing a file deliverable (.pptx / .docx / .xlsx / .pdf)

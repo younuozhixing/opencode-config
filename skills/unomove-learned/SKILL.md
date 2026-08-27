@@ -122,3 +122,7 @@ the CLAUDE.md spine — keep it out of the always-loaded path.
 - Give a completion mark only after the whole task is verified, not on restated intent or status claims.
 
 - (2026-08-27 08:56) - 中断恢复后，先重新扫描工作区并验证任何部分产物的完整性，再决定恢复或重做——绝不假设中断前的状态仍然有效。
+
+- (2026-08-27 10:16) - Before producing any deliverable, confirm the concrete meaning of vague quality/safety requirements ("safe enough," "professional look") with the requester — never interpret and finalize alone.
+- Match the task to the on-demand skill early (e.g., PDF/brand work → deck-doc); loading it before drafting avoids rework.
+- Gather and confirm source material and scope before choosing a toolchain or drafting.
