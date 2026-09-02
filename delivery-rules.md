@@ -2373,6 +2373,52 @@ recorded reason is silent divergence (authoritative-vs-actual at the
 branch level), and the unfinished set must stay enumerable by one
 command.** See anti-pattern #83.
 
+<a id="production-branch-known-safe"></a>
+### 20.4 The production branch stays on the last known-safe behavior — exclude a known-unsafe regression commit regardless of recency
+
+> **When this fires** — cutting a production / release branch, or
+> merging toward `main` on a fleet that runs from the default branch.
+>
+> **Do** — base production on the last commit known to be safe; if a
+> regression has landed since, exclude that commit even if it's the
+> newest — recency does not override known-unsafe.
+
+The production branch's job is to run code the fleet has *validated*,
+not the newest code on `main`. A known-unsafe regression that landed
+after the last known-safe commit is a **disqualifier** for production
+regardless of how recent it is — "but it's the latest" is not a safety
+argument. The last known-safe commit is the floor; anything above it
+that is known-unsafe is excluded, and the branch stays at the floor
+until the regression is fixed (a new commit that restores safe
+behavior) or explicitly reverted.
+
+This is the **branch-level** twin of [§13.3](#capture-live-edits) (a
+hot-edit is a loan captured back to the repo): the production branch is
+a **loan from the repo's validated history**, not a pointer at
+`HEAD`. Treating `main` as automatically production-safe is the same
+shape as treating a dirty-tree build as a release
+([§12.1](#build-version-stamp) dirty stamp) — both ship code the fleet never
+validated. When a regression is identified:
+
+1. **Identify the last known-safe commit** — the most recent commit
+   *validated on the target*, not the most recent commit on `main`.
+2. **Exclude the known-unsafe commit** — do not merge or deploy it;
+   if it's already on `main` and `main` feeds production, the fix is
+   a revert (a new commit), not `git reset` (rewrites history and
+   strands downstream consumers, [§20.1](#merge-to-main) no-force).
+3. **Record the exclusion** ([§18.3](#decision-record)) — which
+   commit, why it's unsafe, what the blocker is — so the floor is
+   known and the exclusion is auditable, not a folklore "don't ship
+   the latest."
+
+The generalisable rule: **the production branch is the last
+known-safe commit, not the newest; a known-unsafe regression that
+landed after it is excluded regardless of recency — recency is not a
+safety argument, the validated commit is the floor, and the exclusion
+is recorded (§18.3) so the floor is auditable.** See anti-pattern #83
+(unmerged divergence) for the unmerged-branch twin and anti-pattern
+#42 (validated-default) for the §9.10 accelerated-path analogue.
+
 ---
 
 <a id="python-env"></a>

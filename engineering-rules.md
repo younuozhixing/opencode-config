@@ -765,6 +765,105 @@ signal and fail safe when they diverge.** See anti-pattern #100.
 
 ---
 
+<a id="ordered-safety-gates"></a>
+### 3.9 Authorize motion through an ordered gate sequence — block at the first failure, never skip ahead
+
+> **When this fires** — any path that decides whether a robot / vehicle
+> may move or escalate autonomy.
+>
+> **Do** — sequence the gates **identity → fresh inputs → e-stop →
+> deadman (bounded motion) → stale-stop → higher autonomy**, in that
+> order, and halt at the first gate that fails.
+
+Autonomy authorization is a **chain of gates**, each one a precondition
+for the next. The order is load-bearing: a later gate is meaningless if
+an earlier one is unmet, so ad-hoc / unordered checks let a request
+pass one gate and skip another. The correct sequence:
+
+1. **Identity** — the requester is who it claims (authenticated command
+   source, verified sender). An unauthenticated source has no claim to
+   anything downstream.
+2. **Fresh inputs** — the sensors / odometry the decision depends on
+   are current, not stale (see [§3.10](#stale-input-no-motion) below).
+   A decision on stale data is a guess, not an authorization.
+3. **E-stop** — no active e-stop / kill / max-brake-latch. A live
+   e-stop ([§3.2](#safety-critical) e-stop always on) vetoes all
+   motion regardless of the other gates.
+4. **Deadman / bounded motion** — the motion is bounded by a deadman,
+   a timeout, or a distance budget; unbounded motion is never
+   authorized.
+5. **Stale-stop** — the command / control link is fresh
+   ([§3.7](#command-link-safe-stop)); a stale command safe-stops, it
+   does not authorize further.
+6. **Higher autonomy** — only when 1–5 all pass does the question of a
+   higher autonomy mode even arise.
+
+**Block at the first failure.** Each gate's failure is a hard stop that
+returns the system to a validated safe state; it does not fall through
+to "check the next one anyway." A pass-set that skips a gate is how a
+stale-input request authorizes motion — gate 2 was never checked but
+gate 5 passed.
+
+The generalisable rule: **an autonomy/motion authorization is an
+ordered gate sequence — identity → fresh inputs → e-stop → deadman →
+stale-stop → higher autonomy — that halts at the first failure and
+returns to a safe state; an unordered or partial pass-set lets a
+request that fails an early gate through a later one.** See anti-pattern
+#93 (flapping) for the recompute-from-scratch twin.
+
+<a id="stale-input-no-motion"></a>
+### 3.10 No motion while a safety-critical sensor is stale — freshness is a hard gate, not a quality hint
+
+> **When this fires** — any input (sensor, odometry, perception) that
+> feeds a motion or actuator decision.
+>
+> **Do** — treat input freshness as a **hard gate** on motion: stale
+> ⇒ no motion, even if the request is airborne or zero-distance.
+
+"Stale" is not a degraded mode you can move through; it is the absence
+of the signal the decision requires. **No motion — not even airborne or
+zero-distance — is authorized while any safety-critical sensor is
+stale.** A zero-distance command is still a command the system will
+execute on stale data, and "we're not really going anywhere" is the
+rationalization that ships the stale-input runaway. Treat freshness as
+a hard gate per sensor, with **fail-closed explicit per sensor and a
+documented freshness budget** (the `~2.5× consumer's stale-input gate`
+of [§3.4](#control-feed-freshness), made into a per-sensor contract):
+
+- **Per-sensor freshness budget.** Each safety-critical sensor declares
+  its own freshness bound (camera frame age, IMU sample age, odometry
+  staleness); a single global "is the input fresh" bool is not enough,
+  because one sensor stale while another is fresh is exactly the case
+  that must gate.
+- **Fail closed per sensor.** When a sensor's freshness bound is
+  exceeded, the decision that depends on it **fails closed** (no
+  motion / safe state), and the stale sensor is surfaced — not
+  averaged in, not substituted, and **never manufactured** to satisfy
+  the gate. Surfacing the missing real signal as a blocker is the
+  intended behavior; synthesizing odometry/sensor data to pass the gate
+  is the anti-pattern.
+- **Never authorize motion on stale.** Even a "safe" motion (hover,
+  zero-distance creep, a return-to-home that's "not really moving")
+  is denied while inputs are stale — the motion command path is the
+  path the stale data corrupts, and "it's barely moving" is not a
+  safety argument.
+
+This is the **input-side** twin of [§3.7](#command-link-safe-stop) (a
+command link that safe-stops on staleness): the *command* must be fresh
+and the *inputs* the decision rests on must be fresh, independently.
+Together they feed [§3.9](#ordered-safety-gates)'s gate 2 (fresh
+inputs) — a request that can't pass gate 2 does not reach gate 3.
+
+The generalisable rule: **a safety-critical sensor's freshness is a
+hard gate on motion, fail-closed per sensor with a documented budget —
+no motion (not even airborne or zero-distance) is authorized while any
+such sensor is stale; a stale signal is surfaced as a blocker, never
+substituted or manufactured to satisfy the gate.** See anti-pattern #58
+(calibration fail-safe) for the related "validate before it reaches the
+consumer" shape.
+
+---
+
 <a id="schemas"></a>
 ## 4. Schemas
 
@@ -2519,6 +2618,49 @@ default; CPU is bring-up scaffold or a loud degraded mode, not the
 steady state; and a validated GPU/CPU decision is re-opened only by
 new attributed measurement that overturns the record — not by
 unease.** See anti-pattern #42.
+
+---
+
+<a id="motion-command-native-bridge"></a>
+### 9.11 A motion-command path prefers the compiled/native bridge over the interpreted one — CPU bottleneck is a safety latency
+
+> **When this fires** — the path a motion / actuator command takes from
+> decision to the wire, on production hardware.
+>
+> **Do** — route the live motion-command path through the
+> **compiled/native** bridge, not the interpreted one, when both exist.
+
+A motion-command path has a latency budget the rest of the system
+depends on; an interpreted bridge (a Python path through a Python
+binding, an interpreter-resident loop) spends more CPU per command than
+the compiled/native (Rust/C, a compiled binding, a native bridge)
+equivalent for the same work. On production hardware — often a
+constrained SoC running several producers and a perception stack —
+that extra CPU is not free: it shows up as command jitter, a missed
+rate floor, or headroom lost to the motion path that a safety-critical
+peer needed. The compiled/native bridge is the default for the command
+path the way [§9.10](#validated-accelerator-default)'s accelerated
+path is the default once validated: both because the hardware was
+provisioned for it and because the interpreted path is the bring-up
+scaffold, not the steady state.
+
+This is a **measured** preference, not a blanket "rewrite all Python
+in Rust": the two [§9.1](#hot-path) / [§9.2](#critical-path) axes apply —
+the motion-command path is a measured hot path (CPU-bound at rate) *or*
+a critical path whose failure mode is silent corruption (a command
+that arrives late or jittered), either of which is the §9
+justification for the compiled path. Where the interpreted bridge is
+unavoidable (a Python-bound UI issuing the command, ML glue), keep it
+on the **issue** side, not the **execution** side — issue the command
+from Python, but execute the live command path through the compiled
+bridge.
+
+The generalisable rule: **the live motion-command path runs through the
+compiled/native bridge, not the interpreted one, on production hardware
+— the interpreted bridge is bring-up/issue-side, not the execution
+path, because the CPU it saves is safety headroom the rest of the
+stack was provisioned with.** See anti-pattern #38 (accelerator
+contention) for the shared-resource twin.
 
 ---
 

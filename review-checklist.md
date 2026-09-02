@@ -127,6 +127,22 @@ on purpose.
       `foo_old.py`, `foo_new.py`).
 - [ ] **No new TODO / FIXME / XXX with my name on it.** If the
       work is incomplete, the user gets told, not the source tree.
+- [ ] **A vague qualitative bar ("safe enough", "fast enough", "good
+      enough", "professional look") in the request was pinned to a
+      concrete, testable meaning before I started** — I named the
+      observable check that would prove it (a threshold, a measurement,
+      a comparison, a visual QA step), not an interpretation I alone
+      finalized. A bar I can't test is a bar I can't verify I met; if
+      the requester's intent was ambiguous, I asked rather than
+      guessing scope from the goal statement. (Scope-fence, §24.)
+- [ ] **An external-facing deliverable (deck, doc, sheet, PDF, HTML)
+      is flattened to its final form and stripped of metadata / author
+      / tooling paths** so no internal source, build path, or tooling
+      leaks to the recipient — and verified to open/parse after the
+      flatten (a deck re-opens, a PDF extracts). A deliverable that
+      carries the build script's paths or the author's identity is a
+      leak, not a finished artifact. (Deliverable hygiene, deck-doc /
+      deliverable-html skills.)
 
 ## B. Naming (every change touching user-visible strings)
 

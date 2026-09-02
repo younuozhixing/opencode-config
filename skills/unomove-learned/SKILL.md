@@ -40,19 +40,13 @@ the CLAUDE.md spine — keep it out of the always-loaded path.
 - Gate the "done" marker on whole-task completion including verification, never on a single completed substep.
 
 - (2026-08-24 18:43) - A green test that cannot be made RED proves nothing — inject the real fault before trusting a test.
-- No motion — even airborne or zero-distance — while any safety-critical sensor is stale; treat freshness as a hard gate.
 - Isolate deploy from dirty trees; never deploy a checkout with uncommitted WIP from another session. Re-derive state from disk on restart instead of trusting in-memory.
-- Ordered validation gates beat ad-hoc checks: progress identity → fresh inputs → e-stop → bounded deadman motion → stale-stop → higher autonomy, in that sequence.
-- Prefer the compiled/native bridge over the interpreted one in the motion command path to reduce CPU bottleneck on production hardware.
-- Production branch stays on the last known-safe behavior; exclude known-unsafe regression commits regardless of how recent they are.
+- Separate authority cleanly — one component should be the sole command authority for an actuator, with telemetry read back to verify it took effect.
+- Preserve another session's uncommitted WIP rather than overwriting it; commit only the paths you changed.
 
 - (2026-08-24 22:37) - A test that never fails proves nothing — verify each test by injecting the real fault and watching it go RED before trusting green.
 - Don't deploy from a dirty or mixed worktree; build from a clean tree at the exact intended commit, and never discard work you didn't write.
 - After any restart, re-derive state from disk rather than trusting in-memory state before authorizing further actions.
-- Treat sensor/odometry staleness as a hard gate: never authorize motion while inputs are stale; make fail-closed explicit per sensor with documented freshness budgets.
-- Separate authority cleanly — one component should be the sole command authority for an actuator, with telemetry read back to verify it took effect.
-- Ordered safety gates beat ad-hoc checks: sequence them identity → fresh inputs → backend/e-stop → deadman → stale-stop → higher modes, and block progression at the first failure.
-- Never manufacture or substitute odometry/sensor data to satisfy a gate; surface the missing real signal as a blocker instead.
 - Preserve another session's uncommitted WIP rather than overwriting it; commit only the paths you changed.
 
 - (2026-08-25 09:17) - Do not assume prior state after an interruption; re-read the actual workspace/files before continuing work.
@@ -109,11 +103,8 @@ the CLAUDE.md spine — keep it out of the always-loaded path.
 
 - (2026-08-27 08:56) - 中断恢复后，先重新扫描工作区并验证任何部分产物的完整性，再决定恢复或重做——绝不假设中断前的状态仍然有效。
 
-- (2026-08-27 10:16) - Before producing any deliverable, confirm the concrete meaning of vague quality/safety requirements ("safe enough," "professional look") with the requester — never interpret and finalize alone.
+- (2026-08-27 10:16) - Before producing any deliverable, gather and confirm source material and scope before choosing a toolchain or drafting.
 - Match the task to the on-demand skill early (e.g., PDF/brand work → deck-doc); loading it before drafting avoids rework.
-- Gather and confirm source material and scope before choosing a toolchain or drafting.
-
-- (2026-08-27 10:30) - When a requirement uses a vague qualitative bar (e.g. "safe enough", "fast enough", "good enough"), pin down its concrete, testable meaning before starting work — otherwise you cannot verify you met it.
 
 - (2026-08-27 10:30) - Re-read the workspace state to confirm what's already done before continuing an interrupted task — never assume prior state.
 - Verify the result actually works with fresh evidence; declaring done prematurely is a failure.
@@ -123,4 +114,3 @@ the CLAUDE.md spine — keep it out of the always-loaded path.
 - Emit a "done" signal only when the full task is verified working, not when individual steps finish.
 
 - (2026-08-27 10:56) - When choosing a build path, respect a tool's explicit scope notes — if a skill declares it does *not* cover a format (e.g. PDF), pick a different path rather than forcing it.
-- For any external-facing deliverable, flatten to final form and strip metadata/author/tooling paths so no internal source or tooling leaks.
