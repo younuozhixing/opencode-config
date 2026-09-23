@@ -14,6 +14,20 @@ like* a known bug.
 
 ---
 
+## Recent implementation lessons
+
+The [learned-knowledge index](skills/unomove-learned/SKILL.md) routes to
+focused references, with source commits and falsifying checks:
+
+- [Robotics and messaging](skills/unomove-learned/references/robotics-messaging.md): replay transactions, invalid versus rejected input, asynchronous fusion, calibration, and transport lifecycle.
+- [Platform and lifecycle](skills/unomove-learned/references/platform-lifecycle.md): stale async completion, uncertain writes, authoritative catalogs, exclusion policy, locks, settlement, and capacity.
+- [Applications and integrations](skills/unomove-learned/references/applications-integrations.md): authentication recovery, ledger writes, approval invalidation, extraction, snapshot coverage, and operator controls.
+- [September survey evidence](skills/unomove-learned/references/2026-09-evidence.md): scope, repository snapshots, provenance, and unverified boundaries.
+
+These are conditional lessons, not additional always-on requirements.
+
+---
+
 ## The loop (every task)
 
 1. **Understand** — don't assume; reproduce/diagnose before you change; ask when unclear.

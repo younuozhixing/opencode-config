@@ -948,7 +948,13 @@ Per-topic ring sizing:
 
 - The default ring (≈64 KiB) is sized for small telemetry structs.
 - Camera-rate or large-model topics need an explicit size hint.
-  Oversize messages **truncate**, they do not error.
+  Check the selected transport's payload bound, including record framing and
+  alignment, rather than equating ring capacity with maximum message size.
+  The current shared-memory transport **rejects** oversized messages with a
+  typed error before mutating the ring; callers must handle that error, never
+  assume truncation or successful delivery. Verify the pinned version's
+  contract with boundary and wrapped-write tests, including a valid send after
+  rejection. See the [transport lessons](skills/unomove-learned/references/robotics-messaging.md).
 - Three knobs in order of preference: (1) per-deployment config,
   (2) per-workspace baseline / size-hint table, (3) ad-hoc at
   publisher construction. Prefer (1) for stable topics, (2) for
@@ -963,8 +969,8 @@ For a large payload (a camera frame, a tensor, a multi-MB blob),
 ends map. The bus carries `{which buffer, sequence, dims,
 timestamp}`; the pixels live in a SHM frame buffer (host) or a
 shared device pool (GPU) and are never copied through the
-bus/CPU per frame. A bus sized for telemetry will truncate or
-choke on bulk; a per-frame copy of bulk is the throughput bug
+bus/CPU per frame. A bus sized for telemetry can reject bulk or
+saturate under it; a per-frame copy of bulk is the throughput bug
 you'll measure later.
 
 This is the same shape at three layers:
