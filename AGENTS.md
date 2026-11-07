@@ -48,7 +48,7 @@ Use the smallest relevant skill instead of reading the whole rule book:
 | Building a BINARY Office file (PowerPoint .pptx / Word .docx / Excel .xlsx) — NOT HTML, not PDF via soffice | `skills/deck-doc/SKILL.md` |
 | A tracker/checklist/dashboard the user will USE (one interactive .html + unoStore persist) | `skills/deliverable-html/SKILL.md` |
 | Cloning/pushing/creating a repo (SSH-key origin + `~/unocoding/setup.sh`, never `gh`) | `skills/git/SKILL.md` |
-| Reaching a company machine (rig/server, e.g. ECAR70) via `unoai-jump` (read-only) | `skills/machine-access/SKILL.md` |
+| Reaching a company machine (rig/server, e.g. ECAR70) via `unoai-jump` (write-enabled; `--read-only` for diagnostics) | `skills/machine-access/SKILL.md` |
 | Importing/reusing shared code, or adding a dependency (build on `unolib`) | `skills/unolib/SKILL.md` |
 
 For a fast index without loading full detail, scan `quickref.md`.

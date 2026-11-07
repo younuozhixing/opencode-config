@@ -24,6 +24,8 @@ authorized SSH configuration; never copy private keys as part of tool rollout.
 
 - `unoai-jump --list` lists configured machine names; `--why <machine>` explains routing.
 - `unoai-jump --read-only --timeout 30 <machine> 'cat /etc/hostname'` runs diagnostics.
+- `unoai-jump --timeout 120 <machine> 'cd /srv/app && ./step.sh > /tmp/log'` runs a write;
+  shell operators, pipes, redirection and arbitrary programs are allowed by default.
 - `unoai-jump --progress --timeout 120 <machine> '<authorized command>'` streams output.
 - `unoai-jump --json <machine> '<command>'` returns structured results for automation.
 - `unoai-jump --progress sync ./build/ <machine>:/tmp/staged-build/` transfers files.
@@ -31,8 +33,11 @@ authorized SSH configuration; never copy private keys as part of tool rollout.
 - `unoai-jump forward <machine> -L 127.0.0.1:18090:127.0.0.1:8090` opens a local tunnel;
   use `cancel` with the same specification to close only that tunnel.
 
-Global flags go before the machine/subcommand. Use `--read-only` for inspection;
-the default is write-enabled, but **capability is not authorization**. Only mutate
+Global flags go before the machine/subcommand. The default is write-enabled.
+`--read-only` is an optional diagnostic guard: it rejects shell operators (`;`,
+`&&`, `|`, `>`, `$(…)`) and programs outside its allowlist, so drop it for chained
+or writing commands rather than splitting them into many calls. **Capability is
+not authorization**. Only mutate
 the machines/files/services the user's current task covers. Broad access does not
 authorize actuator movement, service restarts, account changes, or wider deployment.
 
