@@ -12,9 +12,9 @@ If you must build a file programmatically anyway, write it to disk EARLY and kee
 - Before you report done, VERIFY the file exists and is non-trivial (e.g. `ls -la out.pptx`, reopen it) — "the script is written" is not "the file is saved". The operator downloads the FILE, not the script.
 
 ## Branding — every deliverable carries the 优诺智行 logo
-Every file you hand the operator (deck, document, sheet, PDF) is a COMPANY deliverable and MUST carry the 优诺智行 (Younuo Zhixing) mark + a trademark line. Transparent-PNG assets are installed at `~/.claude/skills/uno-deck/assets/brand/` (`younuo-logo-horizontal.png`, `younuo-logo-stacked.png`, `younuo-mark.png`) — copy the one you need into your build dir first (node/pptxgenjs won't expand `~`).
-- **Decks (.pptx):** follow the `uno-deck` skill — full logo on the cover, the mark-only symbol small in a content-slide corner, `© 优诺智行 Younuo Zhixing` in the footer.
-- **Documents (.docx) / PDF:** the horizontal logo small in the header (or on the title/first page) + `© 优诺智行 Younuo Zhixing` in the footer.
+Every file you hand the operator (deck, document, sheet, PDF) is a COMPANY deliverable and MUST carry the 优诺智行 mark + a trademark line. Transparent-PNG assets are installed at `~/.claude/skills/uno-deck/assets/brand/` (`younuo-logo-horizontal.png`, `younuo-logo-stacked.png`, `younuo-mark.png`) — copy the one you need into your build dir first (node/pptxgenjs won't expand `~`).
+- **Decks (.pptx):** follow the `uno-deck` skill — full logo on the cover, the mark-only symbol small in a content-slide corner, `© 优诺智行` in the footer.
+- **Documents (.docx) / PDF:** the horizontal logo small in the header (or on the title/first page) + `© 优诺智行` in the footer.
 - **Sheets (.xlsx):** the trademark line in a header/footer or title cell; embed the logo where the format supports it.
 Keep it tasteful and unobtrusive — it marks ownership, it doesn't decorate. Never stretch or recolour the logo; preserve its aspect ratio.
 
